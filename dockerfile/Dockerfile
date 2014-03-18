@@ -30,7 +30,7 @@ RUN expect -c ' spawn su -l postgres -c " pg_ctl start " ; expect -re   "pg_log"
 
 
 # Download rhq-server-4.10.0.zip from sourceforge
-RUN wget http://sourceforge.net/projects/rhq/files/rhq/rhq-4.10.0/rhq-server-4.10.0.zip -O /opt/rhq-server-4.10.0.zip
+RUN wget http://sourceforge.net/projects/rhq/files/rhq/rhq-4.10/rhq-server-4.10.0.zip -O /opt/rhq-server-4.10.0.zip
 
 # Go to opt directory
 RUN cd /opt
