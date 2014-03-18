@@ -6,7 +6,7 @@ MAINTAINER Armine Hovsepyan <ahovsepy@redhat.com>
 
 # install missing commands
 #RUN yum -y update --skip-broken
-RUN yum -y install wget  unzip vim  expect spawn
+RUN yum -y install wget  unzip  expect spawn
 
 # Install java
 RUN yum -y install java-1.7.0-openjdk-devel
