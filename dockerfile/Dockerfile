@@ -5,7 +5,7 @@ FROM mattdm/fedora
 MAINTAINER Armine Hovsepyan <ahovsepy@redhat.com>
 
 # install missing commands
-RUN yum -y update
+RUN yum -y update --skip-broken
 RUN yum -y install wget  unzip vim  expect spawn
 
 # Install java
