@@ -5,8 +5,8 @@ FROM mattdm/fedora
 MAINTAINER Armine Hovsepyan <ahovsepy@redhat.com>
 
 # install missing commands
-#RUN yum -y update --skip-broken
-RUN yum -y install wget  unzip  expect spawn
+RUN yum -y update
+RUN yum -y install wget  unzip vim  expect spawn
 
 # Install java
 RUN yum -y install java-1.7.0-openjdk-devel
@@ -30,7 +30,7 @@ RUN expect -c ' spawn su -l postgres -c " pg_ctl start " ; expect -re   "pg_log"
 
 
 # Download rhq-server-4.10.0.zip from sourceforge
-RUN wget http://sourceforge.net/projects/rhq/files/rhq/rhq-4.10/rhq-server-4.10.0.zip -O /opt/rhq-server-4.10.0.zip
+RUN wget http://sourceforge.net/projects/rhq/files/rhq/rhq-4.10/rhq-server-4.10.0.zip/download -O /opt/rhq-server-4.10.0.zip
 
 # Go to opt directory
 RUN cd /opt
@@ -46,8 +46,10 @@ RUN cp -u rhq-server.properties  /opt/rhq-server-4.10.0/bin/rhq-server.propertie
 
 ENV RHQ_SERVER_JAVA_EXE_FILE_PATH /usr/bin/java
 
-ENTRYPOINT  expect -c ' spawn su -l postgres -c " pg_ctl start " ; expect -re   "pg_log" {send \"\r\"; exp_continue } }' ;\
-su root  -c ' ./opt/rhq-server-4.10.0/bin/rhqctl install  --agent-preference="127.0.0.1" ';\
-su root  -c ' ./opt/rhq-server-4.10.0/bin/rhqctl start ';\
-/bin/bash
+EXPOSE 7080
 
+ENTRYPOINT  expect -c ' spawn su -l postgres -c " pg_ctl start " ; expect -re   "pg_log" {send \"\r\"; exp_continue } }' ;\
+su root  -c ' ./opt/rhq-server-4.10.0/bin/rhqctl install  --start ';\
+su root -c 'tail -f /opt/rhq-server-4.10.0/logs/server.log';
+
+CMD []
